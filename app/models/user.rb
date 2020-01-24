@@ -1,4 +1,6 @@
+
 class User < ApplicationRecord
+
     validates :username, presence: true, uniqueness: true
     validates :password_digest, presence: {message: 'Password can\'t 
         be blank'}
@@ -29,4 +31,10 @@ class User < ApplicationRecord
             session_token = self.session_token
              session_token ? session_token : User.generate_session_token
         end
+
+        def password=(password)
+            @password = password
+            self.password_digest = BCrypt::Password.create(password)
+        end
+
 end
