@@ -19,8 +19,14 @@ class User < ApplicationRecord
         end
 
         def reset_session_token!
-           session_token =  user.generate_session_token
+           session_token =  User.generate_session_token
            session_token.save!
            self.session_token
+        end
+
+        def ensure_session_token
+            #check if session token is there if not geneate one
+            session_token = self.session_token
+             session_token ? session_token : User.generate_session_token
         end
 end
